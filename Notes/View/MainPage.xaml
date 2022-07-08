@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="Notes.View.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Notes.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent">
+    <Page.Resources>
+        <local:NotesTemplateSelector
+            x:Name="NotesTemplateSelector"
+            FolderTemplate="{StaticResource FolderTemplate}"
+            NoteTemplate="{StaticResource NoteTemplate}"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid
+            Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="8">
+                <Button
+                    Padding="4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="{x:Bind ViewModel.Create, Mode=OneWay}">
+                    <FontIcon
+                        FontSize="16"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Glyph="&#xe710;"/>
+                </Button>
+            </Grid>
+            <ScrollViewer
+                Grid.Row="1">
+                <TreeView
+                    SelectionMode="Single"
+                    SelectedItem="{x:Bind ViewModel.SelectedNote, Mode=TwoWay}"
+                    ItemsSource="{x:Bind ViewModel.ParentFolder.Children, Mode=TwoWay}"
+                    ItemTemplateSelector="{StaticResource NotesTemplateSelector}">
+                </TreeView>
+            </ScrollViewer>
+        </Grid>
+        <Grid
+            Grid.Column="1"
+            CornerRadius="6"
+            BorderThickness="1 1 0 0"
+            Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
+            BorderBrush="#383838">
+            <Grid.RenderTransform>
+                <TranslateTransform Y="2"/>
+            </Grid.RenderTransform>
+            <TextBlock
+                Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}"
+                Text="No selected"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+            <TextBox
+                x:Name="NoteBox"
+                Visibility="{x:Bind ViewModel.HasSelectedNote, Mode=OneWay}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                IsSpellCheckEnabled="False"
+                Background="Transparent"
+                BorderThickness="0"
+                TextChanged="TextBox_TextChanged"
+                AcceptsReturn="True">
+                <TextBox.Resources>
+                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
+                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent" />
+                </TextBox.Resources>
+            </TextBox>
+        </Grid>
+    </Grid>
+</Page>

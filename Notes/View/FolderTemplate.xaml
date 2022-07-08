@@ -1,0 +1,19 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Notes.View"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls">
+    <DataTemplate
+        x:Key="FolderTemplate">
+        <TreeViewItem
+            ItemsSource="{Binding Children, Mode=TwoWay}">
+            <local:NoteSideItem Item="{Binding Self, Mode=TwoWay}"/>
+        </TreeViewItem>
+    </DataTemplate>
+    <DataTemplate
+        x:Key="NoteTemplate">
+        <TreeViewItem>
+            <local:NoteSideItem Item="{Binding Self, Mode=TwoWay}"/>
+        </TreeViewItem>
+    </DataTemplate>
+</ResourceDictionary>
